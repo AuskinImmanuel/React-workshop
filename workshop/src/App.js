@@ -32,18 +32,64 @@ function ChildComponent(props) {
   );
 }
 
+function Form() {
+  const [sname, setsName] = useState("");
+  const [age, setAge] = useState(null);
+  const onNameChange = (e) => {
+    setsName(e.target.value);
+  };
+  const onAgeChange = (e) => {
+    setAge(e.target.value);
+  };
+
+  const onSubmit = () => {
+    console.log("Name:" + sname);
+    console.log("Age: " + age);
+
+    const data = { name: sname, age: age };
+    fetch("http://localhost:3600/submit", {
+      method: "POST",
+      headers: { "Content-Type": "applicaiton/json" },
+      body: JSON.stringify(data),
+    });
+  };
+
+  return (
+    <div>
+      name:<input type="text" onChange={onNameChange}></input>
+      <br />
+      <br />
+      Age:<input type="text" onChange={onAgeChange}></input>
+      <br />
+      <br />
+      <button type={"button"} onClick={onSubmit}>
+        Submit
+      </button>
+    </div>
+  );
+}
+
 function App() {
+  let [res, setRes] = useState("Loading");
+
   useEffect(() => {
-    fetch("http://localhost:3600/test").then((data) => console.log(data));
+    fetch("http://localhost:3600/test")
+      .then((data) => data.text())
+      .then((data) => setRes(data));
   });
 
   const Myname = "Auskin";
   const updatedAt = new Date();
   return (
-    <ChildComponent
-      Myname={Myname}
-      updatedAt={updatedAt.toLocaleDateString()}
-    />
+    <div>
+      <ChildComponent
+        Myname={Myname}
+        updatedAt={updatedAt.toLocaleDateString()}
+      />
+      <h1>{res}</h1>
+      <br />
+      <Form />
+    </div>
   );
 }
 
