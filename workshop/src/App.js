@@ -7,7 +7,7 @@ function ChildComponent(props) {
 
   useEffect(() => {
     console.log("Obsered");
-    if (count % 2 == 0) setName("Auskin and count is even");
+    if (count % 2 === 0) setName("Auskin and count is even");
     else setName("Auskin and count is odd");
   }, [count]);
 
@@ -33,6 +33,10 @@ function ChildComponent(props) {
 }
 
 function App() {
+  useEffect(() => {
+    fetch("http://localhost:3600/test").then((data) => console.log(data));
+  });
+
   const Myname = "Auskin";
   const updatedAt = new Date();
   return (
