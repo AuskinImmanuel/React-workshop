@@ -1,24 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useEffect, useState } from "react";
+
+function ChildComponent(props) {
+  let [count, setCount] = useState(0);
+  let [name, setName] = useState("Auskin");
+
+  useEffect(() => {
+    console.log("Obsered");
+    if (count % 2 == 0) setName("Auskin and count is even");
+    else setName("Auskin and count is odd");
+  }, [count]);
+
+  console.log(props);
+  return (
+    <div>
+      <span>Name: {props.Myname}</span> <br />
+      <span>Date: {props.updatedAt}</span>
+      <br />
+      <button
+        onClick={() => {
+          count += 1; //setCount(count+1)
+          setCount(count);
+          console.log("click", count);
+        }}
+      >
+        Click me
+      </button>
+      <div>Counter: {count}</div> <br />
+      <div>Name: {name}</div>
+    </div>
+  );
+}
 
 function App() {
+  const Myname = "Auskin";
+  const updatedAt = new Date();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ChildComponent
+      Myname={Myname}
+      updatedAt={updatedAt.toLocaleDateString()}
+    />
   );
 }
 
